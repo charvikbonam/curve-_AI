@@ -352,6 +352,11 @@
             <div style="padding: 20px; text-align: center; color: #999;">No conversations</div>
         </div>
         <div class="sidebar-footer">
+            <div class="sidebar-footer">
+    <button class="footer-btn" onclick="toggleTheme()">🌓 Theme</button>
+    <button class="footer-btn" onclick="logout()">🚪 Logout</button>
+            </div>
+            
             <button class="footer-btn" onclick="logout()">🚪 Logout</button>
         </div>
     </div>
@@ -382,7 +387,45 @@
     </div>
 </div>
 
-<script>
+<script>function toggleTheme() {
+    const body = document.body;
+    const sidebar = document.querySelector('.sidebar');
+    const chatArea = document.querySelector('.chat-area');
+    const messages = document.querySelectorAll('.assistant .message-content');
+    
+    if (body.style.backgroundColor === 'rgb(26, 26, 46)' || body.style.backgroundColor === '#1a1a2e') {
+        // Switch to Light Mode
+        body.style.backgroundColor = '#f5f5f5';
+        body.style.color = '#333';
+        if (sidebar) sidebar.style.background = 'white';
+        if (chatArea) chatArea.style.background = '#f9f9f9';
+        document.querySelectorAll('.assistant .message-content').forEach(el => {
+            el.style.background = 'white';
+            el.style.color = '#333';
+        });
+        localStorage.setItem('curve_theme', 'light');
+    } else {
+        // Switch to Dark Mode
+        body.style.backgroundColor = '#1a1a2e';
+        body.style.color = '#f0f0f0';
+        if (sidebar) sidebar.style.background = '#16213e';
+        if (chatArea) chatArea.style.background = '#0f0f1a';
+        document.querySelectorAll('.assistant .message-content').forEach(el => {
+            el.style.background = '#16213e';
+            el.style.color = '#f0f0f0';
+        });
+        localStorage.setItem('curve_theme', 'dark');
+    }
+}
+
+// Load saved theme on startup
+const savedTheme = localStorage.getItem('curve_theme');
+if (savedTheme === 'dark') {
+    document.body.style.backgroundColor = '#1a1a2e';
+    document.querySelector('.sidebar').style.background = '#16213e';
+    document.querySelector('.chat-area').style.background = '#0f0f1a';
+}
+    
     // Groq API Configuration
     const GROQ_API_KEY = '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';
     const MODEL = 'llama-3.1-8b-instant';
